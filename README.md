@@ -1,4 +1,4 @@
-# was# Waste Material Classification using MobileNetV2
+# Waste Material Classification using MobileNetV2
 
 ## Project Overview
 
