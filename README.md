@@ -1,111 +1,109 @@
-# Waste Material Classification using MobileNetV2
+Waste Material Classification using MobileNetV2
 
-## Project Overview
+Project Overview
 
-This project implements an image classification system capable of recognizing different categories of waste materials using Deep Learning.
+This repository contains a complete Computer Vision project forautomatic waste material classification using MobileNetV2 andtransfer learning. The system was developed as part of an academicComputer Vision course and follows a complete machine learning workflowfrom dataset preparation to model explainability.
 
-The model is based on **MobileNetV2** with **transfer learning** and is trained to classify waste images into five categories:
+The model classifies waste into five categories:
 
-- Cardboard
-- Glass
-- Metal
-- Paper
-- Plastic
+Cardboard
 
-The project was developed as part of a Computer Vision course and follows a complete machine learning pipeline, including dataset preparation, model training, evaluation, prediction, and visual explanation using Grad-CAM.
+Glass
 
----
+Metal
 
-# Objectives
+Paper
 
-The main objectives of this project are:
+Plastic
 
-- Prepare a clean image dataset
-- Train a convolutional neural network using transfer learning
-- Evaluate the model using standard classification metrics
-- Predict the class of new images
-- Explain model decisions using Grad-CAM visualizations
+Motivation
 
----
+Automatic waste classification can improve recycling efficiency, reducehuman error and support sustainable waste management. Deep learningmodels are particularly effective because they automatically learnvisual features without requiring handcrafted descriptors.
 
-# Dataset
+Project Objectives
 
-The original dataset contains several waste categories.
+Prepare a clean and reproducible image dataset.
 
-For this project only the following five classes were selected:
+Train a CNN using transfer learning.
 
-| Class |
-|-------|
-| Cardboard |
-| Glass |
-| Metal |
-| Paper |
-| Plastic |
+Evaluate the model with standard classification metrics.
 
-The original dataset is stored inside:
+Predict the class of unseen images.
 
-```
-data/raw/original/
-```
+Explain model decisions using Grad-CAM.
 
-The processed dataset is automatically generated inside:
+Build a reproducible GitHub repository.
 
-```
-data/processed/
-```
+Dataset
 
-using the following split:
+This project uses the Garbage Dataset -- A Comprehensive Image Datasetfor Garbage Classification and Recycling.
 
-- Training: 70%
-- Validation: 15%
-- Test: 15%
+Dataset characteristics:
 
-Random seed:
+Total images: 13,348
 
-```
-42
-```
+Original classes: 10
 
----
+License: MIT
 
-# Project Structure
+Original classes:
 
-```
+Battery
+
+Biological
+
+Cardboard
+
+Clothes
+
+Glass
+
+Metal
+
+Paper
+
+Plastic
+
+Shoes
+
+Trash
+
+For this project only the following classes were selected:
+
+Class         Images
+
+Cardboard       1411Glass           1736Metal            930Paper           1336Plastic         1597
+
+Dataset split:
+
+Training: 70%
+
+Validation: 15%
+
+Test: 15%
+
+Random seed: 42
+
+Repository Structure
+
 waste-material-classification/
-
-│
 ├── data/
 │   ├── raw/
-│   │   └── original/
 │   └── processed/
-│       ├── train/
-│       ├── validation/
-│       └── test/
-│
 ├── models/
-│   └── best_model.pth
-│
 ├── results/
-│
 ├── src/
 │   ├── prepare_data.py
 │   ├── train.py
 │   ├── evaluate.py
 │   ├── predict.py
 │   └── gradcam.py
-│
 ├── README.md
 ├── requirements.txt
 └── .gitignore
-```
 
----
+Pipeline
 
-# Project Pipeline
-
-The complete workflow is:
-
-```
 Original Dataset
         │
         ▼
@@ -124,284 +122,180 @@ best_model.pth
  │      │            │
  ▼      ▼            ▼
 evaluate.py  predict.py  gradcam.py
-```
 
----
+Model
 
-# Model
+Backbone: MobileNetV2
 
-Architecture:
+Transfer Learning:
 
-**MobileNetV2**
+ImageNet pretrained weights
 
-Transfer learning:
+Frozen feature extractor
 
-- Pretrained on ImageNet
-- Frozen feature extractor
-- Custom classifier for 5 output classes
+Custom classification head
 
 Classifier:
 
-```
 Dropout(0.3)
+
 Linear(1280 → 5)
-```
 
-Loss function:
+Training configuration:
 
-```
-CrossEntropyLoss
-```
+Parameter       Value
 
-Optimizer:
+Optimizer       AdamLoss            CrossEntropyLossLearning Rate   0.001Batch Size      32Image Size      224×224
 
-```
-Adam
-```
+Data Augmentation
 
-Learning rate:
+Training images:
 
-```
-0.001
-```
+Resize
 
-Batch size:
+Random Horizontal Flip
 
-```
-32
-```
+Random Rotation
 
-Image size:
+Color Jitter
 
-```
-224 × 224
-```
+ImageNet Normalization
 
----
+Validation/Test:
 
-# Data Augmentation
+Resize
 
-Training images use the following transformations:
+ImageNet Normalization
 
-- Resize
-- Random Horizontal Flip
-- Random Rotation
-- Color Jitter
-- Normalization (ImageNet)
+Evaluation
 
-Validation and test images use only:
+The evaluation stage computes:
 
-- Resize
-- Normalization
+Accuracy
 
----
+Precision
 
-# Training
+Recall
 
-The training script:
+F1-score
 
-```
-train.py
-```
+Confusion Matrix
 
-performs:
+Classification Report
 
-- Dataset loading
-- Model creation
-- Transfer learning
-- Training loop
-- Validation
-- Best model saving
-- Training history saving
-- Accuracy and loss curves generation
+Final Test Results
 
-The trained model is saved inside:
+Metric                   Score
 
-```
-models/best_model.pth
-```
+Accuracy            82.39%Macro Precision     81.94%Macro Recall        82.68%Macro F1-score      81.97%
 
----
+Generated files:
 
-# Evaluation
+confusion_matrix.png
 
-The evaluation script:
+classification_report.csv
 
-```
-evaluate.py
-```
+test_metrics.txt
 
-computes:
+test_predictions.csv
 
-- Accuracy
-- Precision
-- Recall
-- F1-score
-- Confusion Matrix
-- Classification Report
+misclassified_images.csv
 
-Generated outputs include:
+Prediction
 
-- confusion_matrix.png
-- classification_report.csv
-- test_metrics.txt
-- test_predictions.csv
-- misclassified_images.csv
+The prediction module loads the trained model and classifies a singleimage, returning:
 
----
+Predicted class
 
-# Prediction
+Confidence
 
-The prediction script:
+Class probabilities
 
-```
-predict.py
-```
+Prediction visualization
 
-classifies a single image.
+Grad-CAM
 
-Example:
+Grad-CAM provides visual explanations highlighting the image regionsthat most influenced the prediction.
 
-```
-python predict.py --image path/to/image.jpg
-```
+Outputs:
 
-If no image is specified, the script asks the user to provide one interactively.
+Original image
 
-Outputs include:
+Heatmap
 
-- Predicted class
-- Confidence score
-- Class probabilities
-- Prediction figure
+Overlay
 
----
+Combined visualization
 
-# Grad-CAM
+Failure Analysis
 
-The script:
+The best-performing classes are cardboard and glass.
 
-```
-gradcam.py
-```
+Most errors occur between:
 
-generates visual explanations for the model predictions.
+Paper ↔ Cardboard
 
-Outputs include:
+Plastic ↔ Glass
 
-- Original image
-- Grad-CAM heatmap
-- Heatmap overlay
-- Combined visualization
+Metal ↔ Glass
 
-Grad-CAM helps interpret which image regions influenced the prediction.
+These mistakes are mainly caused by similar textures, colors andlighting conditions.
 
----
+Ethical Considerations
 
-# Results
+This model is intended for educational purposes.
 
-Training generates:
+Its performance depends on image quality and dataset diversity. Itshould not be used as the sole decision system in real industrialrecycling environments without additional validation.
 
-- accuracy_curve.png
-- loss_curve.png
-- training_history.csv
+Reproducibility
 
-Evaluation generates:
+Create a virtual environment:
 
-- classification_report.csv
-- confusion_matrix.png
-- test_metrics.txt
-- test_predictions.csv
-- misclassified_images.csv
+python -m venv .venv
 
-Prediction generates:
+Activate it and install dependencies:
 
-- prediction_<image>.png
-
-Grad-CAM generates:
-
-- gradcam_original_<image>.png
-- gradcam_heatmap_<image>.png
-- gradcam_overlay_<image>.png
-- gradcam_combined_<image>.png
-
----
-
-# Requirements
-
-Main libraries:
-
-- Python 3.13
-- PyTorch
-- Torchvision
-- NumPy
-- Pillow
-- Matplotlib
-- Scikit-learn
-- OpenCV
-- Grad-CAM
-
-Install all dependencies:
-
-```
 pip install -r requirements.txt
-```
 
----
+Run the complete pipeline:
 
-# How to Run
-
-Prepare the dataset:
-
-```
 python src/prepare_data.py
-```
-
-Train the model:
-
-```
 python src/train.py
-```
-
-Evaluate the model:
-
-```
 python src/evaluate.py
-```
-
-Predict a new image:
-
-```
 python src/predict.py
-```
-
-Generate Grad-CAM visualization:
-
-```
 python src/gradcam.py
-```
 
----
+Future Improvements
 
-# Future Improvements
+Train on all ten classes.
 
-Possible future extensions include:
+Fine-tune additional MobileNetV2 layers.
 
-- Training on all available waste categories
-- Fine-tuning additional MobileNetV2 layers
-- Hyperparameter optimization
-- Model comparison with EfficientNet and ResNet
-- Real-time webcam classification
-- Web application deployment
-- Mobile deployment
+Compare with EfficientNet and ResNet.
 
----
+Hyperparameter optimization.
 
-# Author
+Real-time webcam inference.
+
+Mobile deployment.
+
+References
+
+Garbage Dataset -- A Comprehensive Image Dataset for GarbageClassification and Recycling.
+
+Managing Household Waste Through Transfer Learning.
+
+PyTorch Documentation.
+
+MobileNetV2 Paper.
+
+Author
 
 Computer Vision Project
 
 Waste Material Classification using MobileNetV2
+
+Developed for academic purposes.
 
 Developed for academic purposes.te-material-classification
 Computer Vision project for automatic waste material classification using transfer learning and MobileNetV2.
