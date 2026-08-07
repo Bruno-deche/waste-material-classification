@@ -684,7 +684,7 @@ python -m venv .venv
 
 On Windows PowerShell:
 
-.\.venv\Scripts\Activate.ps1
+.venv\Scripts\Activate.ps1
 
 3. Install Dependencies
 
